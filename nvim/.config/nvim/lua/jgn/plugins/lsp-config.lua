@@ -175,7 +175,7 @@ return {
         gofumpt = {},
         hydra_lsp = {},
         jsonls = {},
-        lemminx = {},
+        -- lemminx = {},
         marksman = {},
         pyright = {},
         ruff_lsp = {},
