@@ -1,6 +1,6 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/catppuccin/catppuccin-mocha.toml"]
+import = ["~/.config/alacritty/kanagawa/kanagawa_wave.toml"]
 
 [env]
 TERM = "xterm-256color"
