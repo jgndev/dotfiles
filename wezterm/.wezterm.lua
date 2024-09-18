@@ -16,9 +16,9 @@ config.font_size = 16.0
 config.freetype_load_flags = "NO_HINTING"
 
 -- Colorscheme
--- config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = "Catppuccin Mocha"
 -- config.color_scheme = "Gruvbox dark, hard (base16)"
-config.color_scheme = "kanagawabones"
+-- config.color_scheme = "kanagawabones"
 -- config.color_scheme = "GruvboxDarkHard"
 
 -- Window Decorations

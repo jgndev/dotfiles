@@ -58,6 +58,9 @@ return {
         --   },
         -- },
         -- pickers = {}
+        find_files = {
+          hidden = true,
+        },
         extensions = {
           ["ui-select"] = {
             require("telescope.themes").get_dropdown(),
@@ -71,7 +74,11 @@ return {
 
       -- See `:help telescope.builtin`
       local builtin = require "telescope.builtin"
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
+      -- local default_opts = { noremap = true }
+
+      vim.keymap.set('n', '<leader>ff',
+        "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>",
+        { desc = "Find Files" })
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Search Diagnotics" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find Recent Files" })
