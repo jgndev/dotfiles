@@ -136,16 +136,17 @@ return {
           },
           root_dir = function(fname)
             return require("lspconfig.util").root_pattern(
-              "Makefile",
-              "configure.ac",
-              "configure.in",
-              "config.h.in",
-              "meson.build",
-              "meson_options.txt",
-              "build.ninja"
-            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or require("lspconfig.util").find_git_ancestor(
-              fname
-            )
+                  "Makefile",
+                  "configure.ac",
+                  "configure.in",
+                  "config.h.in",
+                  "meson.build",
+                  "meson_options.txt",
+                  "build.ninja"
+                )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or
+                require("lspconfig.util").find_git_ancestor(
+                  fname
+                )
           end,
           capabilities = {
             offsetEncoding = { "utf-16" },
@@ -244,15 +245,6 @@ return {
         taplo = {},
         templ = {},
         terraformls = {},
-        tsserver = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
 
         lua_ls = {
           -- cmd = {...},
@@ -322,7 +314,6 @@ return {
         "taplo",
         "templ",
         "terraformls",
-        "tsserver",
         "lemminx",
       })
       require("mason-tool-installer").setup { ensure_installed = ensure_installed }
