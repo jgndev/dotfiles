@@ -28,7 +28,6 @@ return {
           "make",
           "markdown",
           "markdown_inline",
-          "python",
           "regex",
           "ron",
           "rust",

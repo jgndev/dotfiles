@@ -22,3 +22,9 @@ vim.api.nvim_set_keymap("n", "bd", ":bdelete<enter>", { noremap = false })
 vim.keymap.set("n", "<leader>ee", "<cmd>GoIfErr<cr>",
   { silent = true, noremap = true }
 )
+
+-- Lazy
+vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>", { noremap = true })
+
+-- LazyGit
+vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Toggle LazyGit", noremap = true })
