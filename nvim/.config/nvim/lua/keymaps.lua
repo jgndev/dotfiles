@@ -15,7 +15,7 @@ vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 vim.api.nvim_set_keymap("n", "bk", ":blast<enter>", { noremap = false })
 vim.api.nvim_set_keymap("n", "bj", ":bfirst<enter>", { noremap = false })
 vim.api.nvim_set_keymap("n", "bh", ":bprev<enter>", { noremap = false })
-vim.api.nvim_set_keymap("n", "bb", ":bnext<enter>", { noremap = false })
+-- vim.api.nvim_set_keymap("n", "bb", ":bnext<enter>", { noremap = false })
 vim.api.nvim_set_keymap("n", "bd", ":bdelete<enter>", { noremap = false })
 
 -- Go
@@ -24,7 +24,7 @@ vim.keymap.set("n", "<leader>ee", "<cmd>GoIfErr<cr>",
 )
 
 -- Lazy
-vim.keymap.set("n", "<leader>L", "<cmd>Lazy<cr>", { noremap = true })
+vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>", { noremap = true })
 
 -- LazyGit
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Toggle LazyGit", noremap = true })
