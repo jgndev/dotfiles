@@ -211,7 +211,6 @@ return {
         gofumpt = {},
         hydra_lsp = {},
         jsonls = {},
-        lemminx = {},
         marksman = {},
         pyright = {},
         ruff_lsp = {},
@@ -314,7 +313,6 @@ return {
         "taplo",
         "templ",
         "terraformls",
-        "lemminx",
       })
       require("mason-tool-installer").setup { ensure_installed = ensure_installed }
 
