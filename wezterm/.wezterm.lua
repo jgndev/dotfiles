@@ -16,7 +16,8 @@ config.font_size = 16.0
 config.freetype_load_flags = "NO_HINTING"
 
 -- Colorscheme
-config.color_scheme = "Catppuccin Mocha"
+-- config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = "kanagawabones"
 
 -- Window Decorations
 config.window_decorations = "RESIZE"
