@@ -1,5 +1,5 @@
-require('options')
-require('keymaps')
+require "options"
+require "keymaps"
 
 -- Setup Lazy
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -13,5 +13,4 @@ require("lazy").setup {
   spec = {
     { import = "jgn.plugins" },
   },
-  checker = { enabled = true },
 }
