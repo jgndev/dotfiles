@@ -1,29 +1,8 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
-    lazy = false,
-    priority = 1000,
+    "catppuccin/nvim",
     config = function()
-      require("kanagawa").setup {
-        colors = {
-          palette = {},
-          theme = {
-            all = {
-              ui = {
-                bg_gutter = "none",
-              },
-            },
-          },
-        },
-      }
-      vim.cmd.colorscheme "kanagawa-wave"
+      vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
-
-  -- {
-  --   "catppuccin/nvim",
-  --   config = function()
-  --     vim.cmd.colorscheme "catppuccin-mocha"
-  --   end,
-  -- },
 }

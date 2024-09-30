@@ -136,17 +136,16 @@ return {
           },
           root_dir = function(fname)
             return require("lspconfig.util").root_pattern(
-                  "Makefile",
-                  "configure.ac",
-                  "configure.in",
-                  "config.h.in",
-                  "meson.build",
-                  "meson_options.txt",
-                  "build.ninja"
-                )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or
-                require("lspconfig.util").find_git_ancestor(
-                  fname
-                )
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(fname) or require("lspconfig.util").find_git_ancestor(
+              fname
+            )
           end,
           capabilities = {
             offsetEncoding = { "utf-16" },
@@ -171,42 +170,43 @@ return {
         dockerls = {},
         emmet_ls = {},
         eslint = {},
-        gopls = {
-          settings = {
-            gofumpt = true,
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            analyses = {
-              fieldalignment = true,
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            usePlaceholders = true,
-            completeUnimported = true,
-            staticcheck = true,
-            directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-            semanticTokens = true,
-          },
-        },
+        gopls = {},
+        -- gopls = {
+        --   settings = {
+        --     gofumpt = true,
+        --     codelenses = {
+        --       gc_details = false,
+        --       generate = true,
+        --       regenerate_cgo = true,
+        --       run_govulncheck = true,
+        --       test = true,
+        --       tidy = true,
+        --       upgrade_dependency = true,
+        --       vendor = true,
+        --     },
+        --     hints = {
+        --       assignVariableTypes = true,
+        --       compositeLiteralFields = true,
+        --       compositeLiteralTypes = true,
+        --       constantValues = true,
+        --       functionTypeParameters = true,
+        --       parameterNames = true,
+        --       rangeVariableTypes = true,
+        --     },
+        --     analyses = {
+        --       fieldalignment = true,
+        --       nilness = true,
+        --       unusedparams = true,
+        --       unusedwrite = true,
+        --       useany = true,
+        --     },
+        --     usePlaceholders = true,
+        --     completeUnimported = true,
+        --     staticcheck = true,
+        --     directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+        --     semanticTokens = true,
+        --   },
+        -- },
         goimports = {},
         gofumpt = {},
         hydra_lsp = {},
@@ -214,31 +214,31 @@ return {
         marksman = {},
         pyright = {},
         ruff_lsp = {},
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = true,
-                loadOutDirsFromCheck = true,
-                runBuildScripts = true,
-              },
-              -- Add clippy lints for Rust.
-              checkOnSave = {
-                allFeatures = true,
-                command = "clippy",
-                extraArgs = { "--no-deps" },
-              },
-              procMacro = {
-                enable = true,
-                ignored = {
-                  ["async-trait"] = { "async_trait" },
-                  ["napi-derive"] = { "napi" },
-                  ["async-recursion"] = { "async_recursion" },
-                },
-              },
-            },
-          },
-        },
+        -- rust_analyzer = {
+        --   settings = {
+        --     ["rust-analyzer"] = {
+        --       cargo = {
+        --         allFeatures = true,
+        --         loadOutDirsFromCheck = true,
+        --         runBuildScripts = true,
+        --       },
+        --       -- Add clippy lints for Rust.
+        --       checkOnSave = {
+        --         allFeatures = true,
+        --         command = "clippy",
+        --         extraArgs = { "--no-deps" },
+        --       },
+        --       procMacro = {
+        --         enable = true,
+        --         ignored = {
+        --           ["async-trait"] = { "async_trait" },
+        --           ["napi-derive"] = { "napi" },
+        --           ["async-recursion"] = { "async_recursion" },
+        --         },
+        --       },
+        --     },
+        --   },
+        -- },
         sqls = {},
         tailwindcss = {},
         taplo = {},
