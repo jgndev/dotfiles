@@ -4,7 +4,7 @@ return {
     lazy = true,
     opts = {},
     config = function()
-      require('zig').setup {}
-    end
+      require("zig").setup {}
+    end,
   },
 }

@@ -170,7 +170,6 @@ return {
         dockerls = {},
         emmet_ls = {},
         eslint = {},
-        gopls = {},
         -- gopls = {
         --   settings = {
         --     gofumpt = true,
@@ -207,38 +206,13 @@ return {
         --     semanticTokens = true,
         --   },
         -- },
-        goimports = {},
-        gofumpt = {},
+        -- goimports = {},
+        -- gofumpt = {},
         hydra_lsp = {},
         jsonls = {},
         marksman = {},
         pyright = {},
         ruff_lsp = {},
-        -- rust_analyzer = {
-        --   settings = {
-        --     ["rust-analyzer"] = {
-        --       cargo = {
-        --         allFeatures = true,
-        --         loadOutDirsFromCheck = true,
-        --         runBuildScripts = true,
-        --       },
-        --       -- Add clippy lints for Rust.
-        --       checkOnSave = {
-        --         allFeatures = true,
-        --         command = "clippy",
-        --         extraArgs = { "--no-deps" },
-        --       },
-        --       procMacro = {
-        --         enable = true,
-        --         ignored = {
-        --           ["async-trait"] = { "async_trait" },
-        --           ["napi-derive"] = { "napi" },
-        --           ["async-recursion"] = { "async_recursion" },
-        --         },
-        --       },
-        --     },
-        --   },
-        -- },
         sqls = {},
         tailwindcss = {},
         taplo = {},
