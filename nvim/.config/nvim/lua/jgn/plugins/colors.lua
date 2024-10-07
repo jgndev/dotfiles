@@ -5,13 +5,25 @@ return {
   --     vim.cmd.colorscheme "catppuccin-mocha"
   --   end,
   -- },
-
+  --
   {
-    "sainnhe/gruvbox-material",
+    "rebelot/kanagawa.nvim",
+    lazy = false,
     priority = 1000,
-    opts = ...,
     config = function()
-      vim.cmd.colorscheme "gruvbox-material"
+      require("kanagawa").setup {
+        colors = {
+          palette = {},
+          theme = {
+            all = {
+              ui = {
+                bg_gutter = "none",
+              },
+            },
+          },
+        },
+      }
+      vim.cmd.colorscheme "kanagawa-wave"
     end,
   },
 }

@@ -17,8 +17,8 @@ config.freetype_load_flags = "NO_HINTING"
 
 -- Colorscheme
 -- config.color_scheme = "Catppuccin Mocha"
--- config.color_scheme = "kanagawabones"
-config.color_scheme = "Gruvbox Material (Gogh)"
+config.color_scheme = "kanagawabones"
+-- config.color_scheme = "Gruvbox Material (Gogh)"
 
 -- Window Decorations
 config.window_decorations = "RESIZE"
