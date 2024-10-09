@@ -169,6 +169,7 @@ return {
     },
     config = function()
       require("go").setup()
+      vim.keymap.set("n", "<leader>gt", "<cmd>GoTest<cr>", { desc = "Go Test" })
     end,
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },

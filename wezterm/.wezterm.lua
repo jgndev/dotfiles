@@ -10,6 +10,7 @@ end
 
 -- Font related
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
+-- config.font = wezterm.font("Fira Code")
 -- config.font = wezterm.font("Hack Nerd Font Mono")
 config.font_size = 16.0
 -- config.dpi = 144.0
