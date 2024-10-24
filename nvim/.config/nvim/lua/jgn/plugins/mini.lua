@@ -3,6 +3,8 @@ return {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.pairs").setup()
+      require("mini.comment").setup()
+      require("mini.notify").setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,

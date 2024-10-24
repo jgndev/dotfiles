@@ -32,11 +32,13 @@ export PROMPT_EOL_MARK=''
 source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
 source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
-## Source rust environment
-source "$HOME/.cargo/env"
-
 # C++ dependencies
 export CPLUS_INCLUDE_PATH=/usr/local/include
 export LIBRARY_PATH=/usr/local/lib
 
+# Aliases
+alias k='kubectl'
+alias vim='nvim'
+
 eval "$(starship init zsh)"
+
