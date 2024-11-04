@@ -130,18 +130,13 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         bashls = {},
-        cssls = {},
         docker_compose_language_service = {},
         dockerls = {},
-        emmet_ls = {},
-        eslint = {},
-        hydra_lsp = {},
         jsonls = {},
         marksman = {},
         pyright = {},
         ruff_lsp = {},
         sqls = {},
-        tailwindcss = {},
         taplo = {},
         templ = {},
         terraformls = {},
@@ -194,11 +189,8 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         "codelldb",
-        "cssls",
         "dockerls",
         "docker_compose_language_service",
-        "emmet_ls",
-        "eslint",
         "gopls",
         "goimports",
         "gofumpt",
@@ -210,7 +202,6 @@ return {
         "marksman",
         "pyright",
         "sqls",
-        "tailwindcss",
         "taplo",
         "templ",
         "terraformls",

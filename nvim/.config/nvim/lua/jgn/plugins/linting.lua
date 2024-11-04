@@ -8,7 +8,6 @@ return {
         tf = { "terraform_validate" },
         dockerfile = { "hadolint" },
         go = { "staticcheck", "golangci-lint" },
-        cpp = { "cpplint" },
         yaml = { "yamllint" },
       },
     },
