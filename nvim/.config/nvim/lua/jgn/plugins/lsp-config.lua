@@ -130,12 +130,10 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         bashls = {},
-        docker_compose_language_service = {},
         dockerls = {},
         jsonls = {},
         marksman = {},
         pyright = {},
-        ruff_lsp = {},
         sqls = {},
         taplo = {},
         templ = {},
@@ -190,7 +188,6 @@ return {
       vim.list_extend(ensure_installed, {
         "codelldb",
         "dockerls",
-        "docker_compose_language_service",
         "gopls",
         "goimports",
         "gofumpt",
