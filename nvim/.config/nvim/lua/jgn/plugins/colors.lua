@@ -16,14 +16,26 @@ return {
           },
         },
       }
-      vim.cmd.colorscheme "kanagawa-wave"
+      -- vim.cmd.colorscheme "kanagawa-wave"
     end,
   },
 
+  {
+    "catppuccin/nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme "catppuccin"
+    end
+  },
+
+  --
   -- {
-  --   "ellisonleao/gruvbox.nvim",
+  --   "sainnhe/gruvbox-material",
+  --   lazy = false,
+  --   priority = 1000,
   --   config = function()
-  --     vim.cmd.colorscheme "gruvbox"
+  --     vim.cmd.colorscheme "gruvbox-material"
   --   end
   -- },
 }
