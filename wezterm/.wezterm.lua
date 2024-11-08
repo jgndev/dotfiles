@@ -21,6 +21,7 @@ config.window_decorations = "NONE|RESIZE"
 -- GPU Accelerated
 config.front_end = "WebGpu"
 
+-- Splits
 config.keys = {
   -- Vertical Split
   {
