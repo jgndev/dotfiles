@@ -13,7 +13,8 @@ config.font = wezterm.font("JetBrainsMono Nerd Font")
 config.font_size = 15.0
 
 -- Colorscheme
-config.color_scheme = "Catppuccin Mocha (Gogh)"
+-- config.color_scheme = "Catppuccin Mocha (Gogh)"
+config.color_scheme = "kanagawabones"
 
 -- Window Decorations
 config.window_decorations = "NONE|RESIZE"
