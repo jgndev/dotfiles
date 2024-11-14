@@ -1,0 +1,7 @@
+unscheduleable
+NetworkPolicy
+yaml
+PersistentVolumes
+ClusterRoleBinding
+ServiceAccount
+ClusterRole
