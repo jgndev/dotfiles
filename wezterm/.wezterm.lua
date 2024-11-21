@@ -10,7 +10,7 @@ end
 
 -- Font related
 config.font = wezterm.font("JetBrainsMono Nerd Font")
-config.font_size = 13.0
+config.font_size = 15.0
 
 -- Colorscheme
 config.color_scheme = "tokyonight_night"
