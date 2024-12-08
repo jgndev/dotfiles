@@ -5,7 +5,7 @@ local wezterm = require("wezterm")
 local config = {}
 
 if wezterm.config_builder then
-	config = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
 
 -- Font related
@@ -43,28 +43,28 @@ config.front_end = "WebGpu"
 
 -- Splits
 config.keys = {
-	-- Vertical Split
-	{
-		key = "-",
-		mods = "CTRL",
-		action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
-	},
-	-- Horizontl Split
-	{
-		key = "/",
-		mods = "CTRL",
-		action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
-	},
-	{
-		key = "J",
-		mods = "CTRL",
-		action = wezterm.action.ActivatePaneDirection("Down"),
-	},
-	{
-		key = "K",
-		mods = "CTRL",
-		action = wezterm.action.ActivatePaneDirection("Up"),
-	},
+  -- Vertical Split
+  {
+    key = "-",
+    mods = "CTRL",
+    action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+  },
+  -- Horizontl Split
+  {
+    key = "/",
+    mods = "CTRL",
+    action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+  },
+  {
+    key = "J",
+    mods = "CTRL",
+    action = wezterm.action.ActivatePaneDirection("Down"),
+  },
+  {
+    key = "K",
+    mods = "CTRL",
+    action = wezterm.action.ActivatePaneDirection("Up"),
+  },
 }
 
 return config
