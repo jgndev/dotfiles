@@ -1,7 +1,7 @@
 cursor-style = block
 theme = kanagawabones
-window-padding-x = 4
-window-padding-y = 4
+window-padding-x = 8
+window-padding-y = 8
 window-padding-color = background
 background-opacity = 0.95
 font-family = "JetBrainsMono Nerd Font"

@@ -42,3 +42,10 @@ alias vim='nvim'
 
 eval "$(starship init zsh)"
 
+# SSH Agent
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/jgn_rsa
+ssh-add ~/.ssh/ansible_rsa
+
+# Terminal
+export TERM=xterm
