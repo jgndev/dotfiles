@@ -49,3 +49,11 @@ ssh-add ~/.ssh/ansible_rsa
 
 # Terminal
 export TERM=xterm
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/jgnovak/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+alias k='kubectl'
+
+complete -o default -F __start_kubectl k
