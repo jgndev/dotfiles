@@ -1,5 +1,5 @@
 # Path
-export PATH=$HOME/bin:/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
+export PATH=$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:$PATH
 
 # History
 setopt appendhistory
@@ -43,17 +43,23 @@ alias vim='nvim'
 eval "$(starship init zsh)"
 
 # SSH Agent
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/jgn_rsa
-ssh-add ~/.ssh/ansible_rsa
+# eval "$(ssh-agent -s)"
+# ssh-add ~/.ssh/jgn_rsa
+# ssh-add ~/.ssh/ansible_rsa
 
 # Terminal
 export TERM=xterm
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/jgnovak/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
+# Aliases
 alias k='kubectl'
-
 complete -o default -F __start_kubectl k
+
+# Claude convenience alias
+#alias claude="/Users/jgnovak/.claude/local/claude"
+
+# opencode
+export PATH=/Users/jgnovak/.opencode/bin:$PATH
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"

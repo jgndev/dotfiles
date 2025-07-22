@@ -9,4 +9,3 @@ font-feature = +liga
 font-size = 16
 font-thicken
 
-keybind = shift+enter=text:\n
