@@ -50,16 +50,11 @@ eval "$(starship init zsh)"
 # Terminal
 export TERM=xterm
 
-
 # Aliases
 alias k='kubectl'
 complete -o default -F __start_kubectl k
 
-# Claude convenience alias
-#alias claude="/Users/jgnovak/.claude/local/claude"
-
 # opencode
 export PATH=/Users/jgnovak/.opencode/bin:$PATH
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
