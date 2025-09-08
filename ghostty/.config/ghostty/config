@@ -1,10 +1,10 @@
 cursor-style = block
-theme = kanagawabones
+theme = catppuccin-mocha
 window-padding-x = 8
 window-padding-y = 8
 window-padding-color = background
 background-opacity = 0.95
-font-family = "JetBrainsMono Nerd Font"
+font-family = "JetBrains Mono Nerd Font"
 font-feature = +liga
 font-size = 16
 font-thicken

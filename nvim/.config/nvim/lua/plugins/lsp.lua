@@ -14,13 +14,24 @@ return {
         },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = { "lua_ls", "elixirls", "ts_ls" }
+                ensure_installed = {
+                    "clangd",
+                    "cssls",
+                    "elixir-ls",
+                    "lua_ls",
+                    "rubocop",
+                    "ruby_ls",
+                    "ts_ls"
+                }
             })
         end
     },
     {
         "neovim/nvim-lspconfig",
         lazy = false,
+        opts = {
+            inlay_hints = { enabled = false },
+        },
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 

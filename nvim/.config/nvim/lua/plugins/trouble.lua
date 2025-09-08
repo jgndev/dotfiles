@@ -1,7 +1,11 @@
 return {
     {
+        "nvim-tree/nvim-web-devicons",
+        opts = {}
+    },
+    {
         "folke/trouble.nvim",
-        opts = {}, -- for default options, refer to the configuration section for custom setup.
+        opts = {},
         cmd = "Trouble",
         keys = {
             {
@@ -20,7 +24,7 @@ return {
                 desc = "Symbols (Trouble)",
             },
             {
-               "<leader>cl",
+                "<leader>cl",
                 "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
                 desc = "LSP Definitions / references / ... (Trouble)",
             },

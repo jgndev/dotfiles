@@ -58,3 +58,13 @@ complete -o default -F __start_kubectl k
 export PATH=/Users/jgnovak/.opencode/bin:$PATH
 export PATH="$HOME/.rbenv/bin:$PATH"
 
+# iex shell history
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# append completions to fpath
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit && compinit
