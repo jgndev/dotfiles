@@ -68,3 +68,8 @@ export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
+
+alias code="/Applications/Visual\ \Studio\ \Code.app/Contents/Resources/app/bin/code"
+
+# Ruby
+eval "$(rbenv init -)"

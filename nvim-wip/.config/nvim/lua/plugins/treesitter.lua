@@ -19,6 +19,7 @@ return {
                     "typescript",
                     "yaml",
                 },
+                auto_install = true,
                 highlight = { enable = true },
                 indent = { enable = true },
             })

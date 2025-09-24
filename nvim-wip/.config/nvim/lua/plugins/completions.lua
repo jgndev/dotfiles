@@ -3,13 +3,6 @@ return {
         "hrsh7th/cmp-nvim-lsp"
     },
     {
-        "L3MON4D3/LuaSnip",
-        dependencies = {
-            "saadparwaiz1/cmp_luasnip",
-            "rafamadriz/friendly-snippets",
-        },
-    },
-    {
         "hrsh7th/nvim-cmp",
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
@@ -18,12 +11,10 @@ return {
         },
         config = function()
             local cmp = require("cmp")
-            require("luasnip.loaders.from_vscode").lazy_load()
 
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
                         vim.snippet.expand(args.body)
                     end,
                 },
@@ -42,9 +33,6 @@ return {
                     { name = "nvim_lsp" },
                     { name = "buffer" },
                     { name = "path" },
-                    { name = "luasnip" }, -- For luasnip users.
-                }, {
-                    { name = "buffer" },
                 }),
             })
         end,
