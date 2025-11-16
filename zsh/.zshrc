@@ -73,3 +73,8 @@ alias code="/Applications/Visual\ \Studio\ \Code.app/Contents/Resources/app/bin/
 
 # Ruby
 eval "$(rbenv init -)"
+
+# Mise
+export PATH=$PATH:$HOME/.local/bin
+#echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+eval "$(~/.local/bin/mise activate zsh)"
