@@ -47,8 +47,6 @@ vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.o.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
@@ -236,7 +234,7 @@ require('lazy').setup({
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local lint = require('lint')
+      local lint = require 'lint'
       lint.linters_by_ft = {
         javascript = { 'eslint_d' },
         javascriptreact = { 'eslint_d' },
@@ -280,9 +278,27 @@ require('lazy').setup({
     'nvim-pack/nvim-spectre',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { '<leader>sr', function() require('spectre').open() end, desc = '[S]earch and [R]eplace' },
-      { '<leader>sw', function() require('spectre').open_visual({ select_word = true }) end, desc = '[S]earch current [W]ord' },
-      { '<leader>sp', function() require('spectre').open_file_search() end, desc = '[S]earch in current file (s[p]ectre)' },
+      {
+        '<leader>sr',
+        function()
+          require('spectre').open()
+        end,
+        desc = '[S]earch and [R]eplace',
+      },
+      {
+        '<leader>sw',
+        function()
+          require('spectre').open_visual { select_word = true }
+        end,
+        desc = '[S]earch current [W]ord',
+      },
+      {
+        '<leader>sp',
+        function()
+          require('spectre').open_file_search()
+        end,
+        desc = '[S]earch in current file (s[p]ectre)',
+      },
     },
   },
 
@@ -340,7 +356,7 @@ require('lazy').setup({
       { '<leader>em', '<cmd>Telescope emoji<cr>', desc = '[Em]oji Picker' },
     },
     config = function()
-      require('telescope').load_extension('emoji')
+      require('telescope').load_extension 'emoji'
     end,
   },
 
@@ -740,18 +756,18 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- Formatters
-        'stylua',        -- Lua
-        'clang-format',  -- C/C++
-        'cmakelang',     -- CMake
-        'prettier',      -- JS/TS/HTML/CSS/YAML
-        'gofumpt',       -- Go
-        'goimports',     -- Go imports
-        'rubocop',       -- Ruby (formatter & linter)
-        'taplo',         -- TOML
+        'stylua', -- Lua
+        'clang-format', -- C/C++
+        'cmakelang', -- CMake
+        'prettier', -- JS/TS/HTML/CSS/YAML
+        'gofumpt', -- Go
+        'goimports', -- Go imports
+        'rubocop', -- Ruby (formatter & linter)
+        'taplo', -- TOML
         'erb-formatter', -- ERB
-        'rustywind',     -- Tailwind CSS class sorter
+        'rustywind', -- Tailwind CSS class sorter
         -- Linters
-        'eslint_d',      -- JS/TS
+        'eslint_d', -- JS/TS
         -- Note: clang-tidy comes with clangd or install via: brew install llvm
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
