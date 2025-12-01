@@ -173,7 +173,7 @@ rtp:prepend(lazypath)
 
 require('lazy').setup({
   -- Automatically detect indentation (tabs vs spaces)
-  'NMAC427/guess-indent.nvim',
+  'tpope/vim-sleuth',
 
   -- Git signs in the gutter with smooth colored bars
   {
@@ -354,6 +354,77 @@ require('lazy').setup({
     opts = {},
   },
 
+  -- Auto close/rename HTML tags
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {},
+  },
+
+  -- Flash.nvim - Fast navigation with search labels
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    keys = {
+      { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
+      { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+      { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+      { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+    },
+    opts = {},
+  },
+
+  -- Trouble.nvim - Better diagnostics list
+  {
+    'folke/trouble.nvim',
+    cmd = 'Trouble',
+    keys = {
+      { '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Diagnostics (Trouble)' },
+      { '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer Diagnostics (Trouble)' },
+      { '<leader>xs', '<cmd>Trouble symbols toggle focus=false<cr>', desc = 'Symbols (Trouble)' },
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix List (Trouble)' },
+    },
+    opts = {},
+  },
+
+  -- Session management - auto-save and restore
+  {
+    'folke/persistence.nvim',
+    event = 'BufReadPre',
+    keys = {
+      { '<leader>qs', function() require('persistence').load() end, desc = 'Restore Session' },
+      { '<leader>ql', function() require('persistence').load({ last = true }) end, desc = 'Restore Last Session' },
+      { '<leader>qd', function() require('persistence').stop() end, desc = "Don't Save Current Session" },
+    },
+    opts = {},
+  },
+
+  -- Projectionist - Jump between related files (Rails: model <-> test, controller <-> view)
+  {
+    'tpope/vim-projectionist',
+    event = 'VeryLazy',
+  },
+
+  -- CMake build integration
+  {
+    'Civitasv/cmake-tools.nvim',
+    ft = { 'cmake', 'c', 'cpp' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    keys = {
+      { '<leader>cg', '<cmd>CMakeGenerate<cr>', desc = '[C]Make [G]enerate' },
+      { '<leader>cb', '<cmd>CMakeBuild<cr>', desc = '[C]Make [B]uild' },
+      { '<leader>cr', '<cmd>CMakeRun<cr>', desc = '[C]Make [R]un' },
+      { '<leader>cd', '<cmd>CMakeDebug<cr>', desc = '[C]Make [D]ebug' },
+      { '<leader>cc', '<cmd>CMakeClean<cr>', desc = '[C]Make [C]lean' },
+      { '<leader>cs', '<cmd>CMakeSelectBuildType<cr>', desc = '[C]Make [S]elect Build Type' },
+      { '<leader>ct', '<cmd>CMakeSelectBuildTarget<cr>', desc = '[C]Make Select [T]arget' },
+    },
+    opts = {
+      cmake_build_directory = 'build/${variant:buildType}',
+      cmake_generate_options = { '-DCMAKE_EXPORT_COMPILE_COMMANDS=1' },
+    },
+  },
+
   -- Emoji picker
   {
     'allaman/emoji.nvim',
@@ -509,12 +580,15 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>c', group = '[C]Make' },
+        { '<leader>e', group = '[E]xtras' },
         { '<leader>f', group = '[F]ind/Files' },
         { '<leader>g', group = '[G]it' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>q', group = '[Q]uit/Session' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-        { '<leader>e', group = '[E]xtras' },
+        { '<leader>x', group = 'Diagnostics (Trouble)' },
       },
     },
   },
