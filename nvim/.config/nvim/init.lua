@@ -4,10 +4,11 @@
 =====================================================================
 
 A modern Neovim configuration optimized for:
-  • C/C++ development
   • Ruby on Rails (with ERB templating)
-  • Tailwind CSS
+  • HTML, CSS, and Tailwind CSS
   • JavaScript/TypeScript
+  • C development with Raylib
+  • CMake build system
 
 Key Features:
   • LSP servers auto-installed via Mason
@@ -15,7 +16,7 @@ Key Features:
   • Real-time linting with nvim-lint
   • Git integration (LazyGit, gitsigns, diffview)
   • Fuzzy finding with Telescope
-  • File explorer with Oil.nvim
+  • File explorer with Neo-tree
   • Tailwind CSS color previews and class sorting
   • Emoji picker for commits and docs
 
@@ -211,16 +212,17 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         c = { 'clang-format' },
-        cpp = { 'clang-format' },
         cmake = { 'cmake_format' },
+        cpp = { 'clang-format' },
         css = { 'prettier' },
-        erb = { 'rustywind', 'erb_formatter' },
-        go = { 'gofumpt', 'goimports' },
+        eruby = { 'erb_formatter' },
         html = { 'rustywind', 'prettier' },
         javascript = { 'rustywind', 'prettier' },
         javascriptreact = { 'rustywind', 'prettier' },
+        json = { 'prettier' },
         lua = { 'stylua' },
         ruby = { 'rubocop' },
+        scss = { 'prettier' },
         toml = { 'taplo' },
         typescript = { 'rustywind', 'prettier' },
         typescriptreact = { 'rustywind', 'prettier' },
@@ -236,13 +238,14 @@ require('lazy').setup({
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        javascript = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
-        ruby = { 'rubocop' },
         c = { 'clangtidy' },
         cpp = { 'clangtidy' },
+        eruby = { 'erb_lint' },
+        javascript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        ruby = { 'rubocop' },
+        typescript = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
       }
 
       -- Auto-lint on save and text change
@@ -338,6 +341,12 @@ require('lazy').setup({
     ft = { 'ruby', 'eruby' },
   },
 
+  -- Auto-add 'end' in Ruby, Lua, etc.
+  {
+    'tpope/vim-endwise',
+    ft = { 'ruby', 'eruby', 'lua' },
+  },
+
   -- Auto-pairs for brackets
   {
     'windwp/nvim-autopairs',
@@ -380,37 +389,76 @@ require('lazy').setup({
     },
   },
 
-  -- Oil.nvim - Edit filesystem like a buffer
+  -- Neo-tree - File explorer sidebar
   {
-    'stevearc/oil.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
+    },
+    cmd = 'Neotree',
     keys = {
-      { '<leader>E', '<cmd>Oil<cr>', desc = 'Open file [E]xplorer' },
+      { '<leader>n', '<cmd>Neotree toggle<cr>', desc = 'Toggle [N]eo-tree' },
+      { '<leader>N', '<cmd>Neotree reveal<cr>', desc = 'Reveal file in [N]eo-tree' },
     },
     opts = {
-      default_file_explorer = true,
-      columns = {
-        'icon',
+      filesystem = {
+        filtered_items = {
+          visible = true,
+          hide_dotfiles = false,
+          hide_gitignored = false,
+        },
+        follow_current_file = {
+          enabled = true,
+        },
+        use_libuv_file_watcher = true,
       },
-      view_options = {
-        show_hidden = true,
+      window = {
+        position = 'left',
+        width = 35,
+        mappings = {
+          ['<space>'] = 'none', -- Disable space to avoid conflict with leader
+          ['<cr>'] = 'open',
+          ['<C-v>'] = 'open_vsplit',
+          ['<C-x>'] = 'open_split',
+          ['<C-t>'] = 'open_tabnew',
+          ['P'] = { 'toggle_preview', config = { use_float = true } },
+          ['l'] = 'open',
+          ['h'] = 'close_node',
+          ['a'] = { 'add', config = { show_path = 'relative' } },
+          ['d'] = 'delete',
+          ['r'] = 'rename',
+          ['y'] = 'copy_to_clipboard',
+          ['x'] = 'cut_to_clipboard',
+          ['p'] = 'paste_from_clipboard',
+          ['c'] = 'copy',
+          ['m'] = 'move',
+          ['R'] = 'refresh',
+          ['?'] = 'show_help',
+          ['q'] = 'close_window',
+        },
       },
-      keymaps = {
-        ['g?'] = 'actions.show_help',
-        ['<CR>'] = 'actions.select',
-        ['<C-v>'] = 'actions.select_vsplit',
-        ['<C-x>'] = 'actions.select_split',
-        ['<C-t>'] = 'actions.select_tab',
-        ['<C-p>'] = 'actions.preview',
-        ['<C-c>'] = 'actions.close',
-        ['<C-r>'] = 'actions.refresh',
-        ['-'] = 'actions.parent',
-        ['_'] = 'actions.open_cwd',
-        ['`'] = 'actions.cd',
-        ['~'] = 'actions.tcd',
-        ['gs'] = 'actions.change_sort',
-        ['gx'] = 'actions.open_external',
-        ['g.'] = 'actions.toggle_hidden',
+      default_component_configs = {
+        indent = {
+          with_expanders = true,
+          expander_collapsed = '',
+          expander_expanded = '',
+        },
+        git_status = {
+          symbols = {
+            added = '',
+            modified = '',
+            deleted = '',
+            renamed = '',
+            untracked = '',
+            ignored = '',
+            unstaged = '󰄱',
+            staged = '',
+            conflict = '',
+          },
+        },
       },
     },
   },
@@ -532,6 +580,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = 'Find buffers' })
+      vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = '[B]uffer [B]rowser' })
 
       vim.keymap.set('n', '<leader>/', function()
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -687,7 +736,7 @@ require('lazy').setup({
       -- LSP servers to auto-install via Mason
       -- Add/remove servers as needed - they'll be installed automatically on startup
       local servers = {
-        -- C/C++
+        -- C/C++ (with Raylib support via clangd)
         clangd = {
           cmd = {
             'clangd',
@@ -695,28 +744,27 @@ require('lazy').setup({
             '--clang-tidy',
             '--header-insertion=iwyu',
             '--completion-style=detailed',
-            'function-arg-placeholders',
+            '--function-arg-placeholders',
+            '--fallback-style=llvm',
           },
+          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
         },
+        -- CMake
+        neocmake = {},
         -- CSS
         cssls = {},
         -- Docker
         dockerls = {},
-        -- Go
-        gopls = {
-          settings = {
-            gopls = {
-              analyses = {
-                unusedparams = true,
-                shadow = true,
-              },
-              staticcheck = true,
-              gofumpt = true,
-            },
-          },
+        -- Emmet (HTML/CSS snippets)
+        emmet_ls = {
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'eruby', 'erb' },
         },
         -- HTML
-        html = {},
+        html = {
+          filetypes = { 'html', 'eruby', 'erb' },
+        },
+        -- JavaScript/TypeScript
+        ts_ls = {},
         -- Lua
         lua_ls = {
           settings = {
@@ -727,15 +775,34 @@ require('lazy').setup({
           },
         },
         -- Ruby
-        ruby_lsp = {},
-        -- TOML
-        taplo = {},
-        -- JavaScript/TypeScript
-        ts_ls = {},
+        ruby_lsp = {
+          init_options = {
+            formatter = 'rubocop',
+            linters = { 'rubocop' },
+          },
+        },
+        -- Solargraph (additional Ruby LSP for Rails)
+        solargraph = {
+          settings = {
+            solargraph = {
+              diagnostics = true,
+              completion = true,
+              hover = true,
+              formatting = false, -- Use rubocop via conform instead
+              references = true,
+              rename = true,
+              symbols = true,
+            },
+          },
+        },
+        -- Stimulus LSP (Rails Hotwire)
+        stimulus_ls = {},
         -- Tailwind CSS
         tailwindcss = {
-          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'erb' },
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'erb', 'eruby' },
         },
+        -- TOML
+        taplo = {},
         -- YAML
         yamlls = {},
       }
@@ -758,16 +825,15 @@ require('lazy').setup({
         -- Formatters
         'stylua', -- Lua
         'clang-format', -- C/C++
-        'cmakelang', -- CMake
+        'cmakelang', -- CMake (cmake_format)
         'prettier', -- JS/TS/HTML/CSS/YAML
-        'gofumpt', -- Go
-        'goimports', -- Go imports
         'rubocop', -- Ruby (formatter & linter)
-        'taplo', -- TOML
-        'erb-formatter', -- ERB
+        'erb-formatter', -- ERB templates
         'rustywind', -- Tailwind CSS class sorter
+        'htmlbeautifier', -- HTML/ERB beautifier
         -- Linters
         'eslint_d', -- JS/TS
+        'erb-lint', -- ERB linting
         -- Note: clang-tidy comes with clangd or install via: brew install llvm
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -893,11 +959,9 @@ require('lazy').setup({
         'diff',
         'dockerfile',
         'editorconfig',
+        'embedded_template', -- ERB support
         'git_config',
         'gitignore',
-        'go',
-        'gomod',
-        'gosum',
         'html',
         'javascript',
         'jq',
@@ -907,8 +971,11 @@ require('lazy').setup({
         'markdown',
         'markdown_inline',
         'query',
+        'regex',
         'ruby',
+        'scss',
         'toml',
+        'tsx',
         'typescript',
         'vim',
         'vimdoc',
