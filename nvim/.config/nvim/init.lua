@@ -112,6 +112,12 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Indentation: 4 spaces for all file types
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
+
 -- [[ Basic Keymaps ]]
 -- See `:help vim.keymap.set()`
 
@@ -172,9 +178,6 @@ rtp:prepend(lazypath)
 -- Commands: :Lazy (plugin manager UI), :Lazy update (update plugins), :Lazy sync (install/update/clean)
 
 require('lazy').setup({
-  -- Automatically detect indentation (tabs vs spaces)
-  'tpope/vim-sleuth',
-
   -- Git signs in the gutter with smooth colored bars
   {
     'lewis6991/gitsigns.nvim',
@@ -206,16 +209,20 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
-      format_on_save = function()
-        return { timeout_ms = 500, lsp_format = 'fallback' }
+      notify_on_error = true, -- Show errors when formatting fails
+      notify_no_formatters = true, -- Show message when no formatters available
+      format_on_save = function(bufnr)
+        return {
+          timeout_ms = 2000, -- Increased from 500ms
+          lsp_format = 'fallback',
+        }
       end,
       formatters_by_ft = {
         c = { 'clang-format' },
         cmake = { 'cmake_format' },
         cpp = { 'clang-format' },
         css = { 'prettier' },
-        eruby = { 'erb_formatter' },
+        eruby = { 'erb_format' }, -- Changed from erb_formatter
         html = { 'rustywind', 'prettier' },
         javascript = { 'rustywind', 'prettier' },
         javascriptreact = { 'rustywind', 'prettier' },
@@ -227,6 +234,19 @@ require('lazy').setup({
         typescript = { 'rustywind', 'prettier' },
         typescriptreact = { 'rustywind', 'prettier' },
         yaml = { 'prettier' },
+      },
+      -- Define custom formatters
+      formatters = {
+        erb_format = {
+          command = 'erb-format',
+          args = { '--stdin' },
+          stdin = true,
+        },
+        ['clang-format'] = {
+          prepend_args = {
+            '--style={BasedOnStyle: LLVM, BreakBeforeBraces: Linux, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 80}',
+          },
+        },
       },
     },
   },
@@ -965,8 +985,8 @@ require('lazy').setup({
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
     opts = {
-      -- Keybindings: <C-y> accept, <C-n>/<C-p> navigate, <C-Space> toggle docs
-      keymap = { preset = 'default' },
+      -- Keybindings: <Tab> accept, <C-n>/<C-p> navigate, <C-Space> toggle docs
+      keymap = { preset = 'super-tab' },
       appearance = { nerd_font_variant = 'mono' },
       completion = { documentation = { auto_show = false, auto_show_delay_ms = 500 } },
       sources = {
@@ -1091,4 +1111,4 @@ require('lazy').setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=4 sts=4 sw=4 et
