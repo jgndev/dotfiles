@@ -225,6 +225,7 @@ require('lazy').setup({
         css = { 'prettier' },
         elixir = { 'mix' },
         eelixir = { 'mix' },
+        eruby = { 'erb_format' },
         heex = { 'mix' },
         html = { 'rustywind', 'prettier' },
         javascript = { 'rustywind', 'prettier' },
@@ -960,6 +961,7 @@ require('lazy').setup({
         'prettier', -- JS/TS/HTML/CSS/YAML
         'rubocop', -- Ruby (formatter & linter)
         'rustywind', -- Tailwind CSS class sorter
+        'erb-formatter', -- ERB formatting
         -- Linters
         'eslint_d', -- JS/TS
         'erb-lint', -- ERB linting
