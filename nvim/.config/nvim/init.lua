@@ -4,6 +4,7 @@
 =====================================================================
 
 A modern Neovim configuration optimized for:
+  • Elixir, Phoenix, and Ash Framework
   • Ruby on Rails (with ERB templating)
   • HTML, CSS, and Tailwind CSS
   • JavaScript/TypeScript
@@ -222,7 +223,9 @@ require('lazy').setup({
         cmake = { 'cmake_format' },
         cpp = { 'clang-format' },
         css = { 'prettier' },
-        eruby = { 'erb_format' }, -- Changed from erb_formatter
+        elixir = { 'mix' },
+        eelixir = { 'mix' },
+        heex = { 'mix' },
         html = { 'rustywind', 'prettier' },
         javascript = { 'rustywind', 'prettier' },
         javascriptreact = { 'rustywind', 'prettier' },
@@ -237,15 +240,19 @@ require('lazy').setup({
       },
       -- Define custom formatters
       formatters = {
-        erb_format = {
-          command = 'erb-format',
-          args = { '--stdin' },
-          stdin = true,
-        },
         ['clang-format'] = {
           prepend_args = {
             '--style={BasedOnStyle: LLVM, BreakBeforeBraces: Linux, IndentWidth: 4, TabWidth: 4, UseTab: Never, ColumnLimit: 80}',
           },
+        },
+        mix = {
+          command = 'mix',
+          args = { 'format', '-' },
+          stdin = true,
+        },
+        rubocop = {
+          prepend_args = { '--autocorrect-all', '--stderr', '--force-exclusion' },
+          exit_codes = { 0, 1 }, -- Accept exit code 1 (offenses found but corrected)
         },
       },
     },
@@ -364,7 +371,13 @@ require('lazy').setup({
   -- Auto-add 'end' in Ruby, Lua, etc.
   {
     'tpope/vim-endwise',
-    ft = { 'ruby', 'eruby', 'lua' },
+    ft = { 'ruby', 'eruby', 'lua', 'elixir' },
+  },
+
+  -- Elixir support
+  {
+    'elixir-editors/vim-elixir',
+    ft = { 'elixir', 'eelixir', 'heex', 'surface' },
   },
 
   -- Auto-pairs for brackets
@@ -849,13 +862,25 @@ require('lazy').setup({
         cssls = {},
         -- Docker
         dockerls = {},
+        -- Elixir
+        elixirls = {
+          cmd = { vim.fn.expand '~/.local/share/nvim/mason/bin/elixir-ls' },
+          settings = {
+            elixirLS = {
+              dialyzerEnabled = true,
+              fetchDeps = false,
+              enableTestLenses = true,
+              suggestSpecs = true,
+            },
+          },
+        },
         -- Emmet (HTML/CSS snippets)
         emmet_ls = {
-          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'eruby', 'erb' },
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'eruby', 'erb', 'heex', 'eelixir' },
         },
         -- HTML
         html = {
-          filetypes = { 'html', 'eruby', 'erb' },
+          filetypes = { 'html', 'eruby', 'erb', 'heex', 'eelixir' },
         },
         -- JavaScript/TypeScript
         ts_ls = {},
@@ -868,24 +893,36 @@ require('lazy').setup({
             },
           },
         },
-        -- Ruby
+        -- Ruby (Shopify's ruby-lsp)
         ruby_lsp = {
           init_options = {
             formatter = 'rubocop',
             linters = { 'rubocop' },
-          },
-        },
-        -- Solargraph (additional Ruby LSP for Rails)
-        solargraph = {
-          settings = {
-            solargraph = {
-              diagnostics = true,
-              completion = true,
-              hover = true,
-              formatting = false, -- Use rubocop via conform instead
-              references = true,
-              rename = true,
-              symbols = true,
+            enabledFeatures = {
+              'codeActions',
+              'diagnostics',
+              'documentHighlights',
+              'documentLink',
+              'documentSymbols',
+              'foldingRanges',
+              'formatting',
+              'hover',
+              'inlayHint',
+              'onTypeFormatting',
+              'selectionRanges',
+              'semanticHighlighting',
+            },
+            featuresConfiguration = {
+              inlayHint = {
+                enableAll = true,
+              },
+            },
+            experimentalFeaturesEnabled = true,
+            -- Add-on configuration (Ruby LSP Rails, etc.)
+            addonSettings = {
+              ['Ruby LSP Rails'] = {
+                enablePendingMigrationsPrompt = true,
+              },
             },
           },
         },
@@ -893,7 +930,7 @@ require('lazy').setup({
         stimulus_ls = {},
         -- Tailwind CSS
         tailwindcss = {
-          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'erb', 'eruby' },
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte', 'erb', 'eruby', 'heex', 'eelixir', 'elixir' },
         },
         -- TOML
         taplo = {},
@@ -922,9 +959,7 @@ require('lazy').setup({
         'cmakelang', -- CMake (cmake_format)
         'prettier', -- JS/TS/HTML/CSS/YAML
         'rubocop', -- Ruby (formatter & linter)
-        'erb-formatter', -- ERB templates
         'rustywind', -- Tailwind CSS class sorter
-        'htmlbeautifier', -- HTML/ERB beautifier
         -- Linters
         'eslint_d', -- JS/TS
         'erb-lint', -- ERB linting
@@ -1053,9 +1088,12 @@ require('lazy').setup({
         'diff',
         'dockerfile',
         'editorconfig',
+        'eex', -- Elixir EEx templates
+        'elixir', -- Elixir language
         'embedded_template', -- ERB support
         'git_config',
         'gitignore',
+        'heex', -- Phoenix HEEx templates
         'html',
         'javascript',
         'jq',
