@@ -10,6 +10,7 @@ A modern Neovim configuration optimized for:
   • JavaScript/TypeScript
   • C development with Raylib
   • CMake build system
+  • YAML (with schema validation for GitHub Actions, Docker Compose, K8s)
 
 Key Features:
   • LSP servers auto-installed via Mason
@@ -108,6 +109,9 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
+-- Show vertical line at 81 characters
+vim.o.colorcolumn = '81'
+
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
@@ -156,6 +160,68 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
+  end,
+})
+
+-- Prevent elixirls from starting (we use expert/lexical instead)
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'Stop elixirls LSP if it starts (using expert instead)',
+  group = vim.api.nvim_create_augroup('disable-elixirls', { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == 'elixirls' then
+      vim.lsp.stop_client(client.id)
+    end
+  end,
+})
+
+-- Use 2 spaces for Elixir files
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Set 2-space indentation for Elixir files',
+  group = vim.api.nvim_create_augroup('elixir-indentation', { clear = true }),
+  pattern = { 'elixir', 'eelixir', 'heex' },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
+-- Use 2 spaces for YAML files
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Set 2-space indentation for YAML files',
+  group = vim.api.nvim_create_augroup('yaml-indentation', { clear = true }),
+  pattern = { 'yaml', 'yml' },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
+-- Enhanced completion for Elixir files
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Configure completion for Elixir files',
+  group = vim.api.nvim_create_augroup('elixir-completion', { clear = true }),
+  pattern = { 'elixir', 'eelixir', 'heex', 'surface' },
+  callback = function()
+    -- Set completion options for better Elixir experience
+    vim.opt_local.iskeyword:append('!') -- Include ! in keyword for function names
+    vim.opt_local.iskeyword:append('?') -- Include ? in keyword for function names
+  end,
+})
+
+-- Enhanced completion for Ruby files
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Configure completion for Ruby files',
+  group = vim.api.nvim_create_augroup('ruby-completion', { clear = true }),
+  pattern = { 'ruby', 'eruby' },
+  callback = function()
+    -- Set completion options for better Ruby experience
+    vim.opt_local.iskeyword:append('!') -- Include ! in keyword for method names
+    vim.opt_local.iskeyword:append('?') -- Include ? in keyword for method names
   end,
 })
 
@@ -213,6 +279,11 @@ require('lazy').setup({
       notify_on_error = true, -- Show errors when formatting fails
       notify_no_formatters = true, -- Show message when no formatters available
       format_on_save = function(bufnr)
+        -- Disable formatting for .text.erb files
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        if bufname:match('%.text%.erb$') then
+          return
+        end
         return {
           timeout_ms = 2000, -- Increased from 500ms
           lsp_format = 'fallback',
@@ -252,7 +323,7 @@ require('lazy').setup({
           stdin = true,
         },
         rubocop = {
-          prepend_args = { '--autocorrect-all', '--stderr', '--force-exclusion' },
+          args = { '--autocorrect-all', '--stderr', '--force-exclusion', '--stdin', '$FILENAME' },
           exit_codes = { 0, 1 }, -- Accept exit code 1 (offenses found but corrected)
         },
       },
@@ -372,7 +443,7 @@ require('lazy').setup({
   -- Auto-add 'end' in Ruby, Lua, etc.
   {
     'tpope/vim-endwise',
-    ft = { 'ruby', 'eruby', 'lua', 'elixir' },
+    ft = { 'ruby', 'eruby', 'lua' },
   },
 
   -- Elixir support
@@ -863,11 +934,15 @@ require('lazy').setup({
         cssls = {},
         -- Docker
         dockerls = {},
-        -- Elixir
-        elixirls = {
-          cmd = { vim.fn.expand '~/.local/share/nvim/mason/bin/elixir-ls' },
+        -- Elixir (using Expert LSP)
+        lexical = {
+          cmd = { 'expert', '--stdio' },
+          filetypes = { 'elixir', 'eelixir', 'heex', 'surface' },
+          root_dir = function(fname)
+            return require('lspconfig').util.root_pattern('mix.exs', '.git')(fname) or vim.loop.cwd()
+          end,
           settings = {
-            elixirLS = {
+            elixir = {
               dialyzerEnabled = true,
               fetchDeps = false,
               enableTestLenses = true,
@@ -935,8 +1010,44 @@ require('lazy').setup({
         },
         -- TOML
         taplo = {},
-        -- YAML
-        yamlls = {},
+        -- YAML with schema support
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                -- Enable built-in schema store for common YAML formats
+                enable = true,
+                -- Automatically fetch schemas from schema store
+                url = 'https://www.schemastore.org/api/json/catalog.json',
+              },
+              -- Schemas for common YAML files
+              schemas = {
+                ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+                ['https://json.schemastore.org/github-action.json'] = '/.github/actions/*/action.{yml,yaml}',
+                ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = 'docker-compose*.{yml,yaml}',
+                kubernetes = '*.k8s.{yml,yaml}',
+              },
+              -- Format options
+              format = {
+                enable = true,
+                singleQuote = false,
+                bracketSpacing = true,
+              },
+              -- Validation options
+              validate = true,
+              hover = true,
+              completion = true,
+              -- Custom tags for CloudFormation, Home Assistant, etc.
+              customTags = {
+                '!reference sequence', -- GitLab CI
+                '!Ref scalar',          -- AWS CloudFormation
+                '!Sub scalar',          -- AWS CloudFormation
+                '!GetAtt scalar',       -- AWS CloudFormation
+                '!Join sequence',       -- AWS CloudFormation
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -981,6 +1092,10 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          -- Disable elixirls (we're using expert/lexical instead)
+          ['elixirls'] = function() end,
+          -- Disable solargraph (we're using ruby_lsp instead)
+          ['solargraph'] = function() end,
         },
       }
     end,
@@ -1025,16 +1140,33 @@ require('lazy').setup({
       -- Keybindings: <Tab> accept, <C-n>/<C-p> navigate, <C-Space> toggle docs
       keymap = { preset = 'super-tab' },
       appearance = { nerd_font_variant = 'mono' },
-      completion = { documentation = { auto_show = false, auto_show_delay_ms = 500 } },
+      completion = {
+        documentation = {
+          auto_show = true, -- Show documentation automatically
+          auto_show_delay_ms = 200, -- Reduced delay for faster feedback
+        },
+        menu = {
+          border = 'rounded',
+          draw = {
+            columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 } },
+          },
+        },
+      },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          buffer = {
+            name = 'Buffer',
+            module = 'blink.cmp.sources.buffer',
+            min_keyword_length = 3, -- Only trigger buffer completion after 3 characters
+            score_offset = -3, -- Lower priority than LSP
+          },
         },
       },
       snippets = { preset = 'luasnip' },
       fuzzy = { implementation = 'lua' },
-      signature = { enabled = true },
+      signature = { enabled = true, window = { border = 'rounded' } },
     },
   },
 
