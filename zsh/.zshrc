@@ -28,14 +28,6 @@ export PATH=$PATH:$GOPATH/bin
 # Stop zsh from printing a % at the end of the line
 export PROMPT_EOL_MARK=''
 
-# The next line enables shell command completion for gcloud.
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
-
-# C++ dependencies
-export CPLUS_INCLUDE_PATH=/usr/local/include
-export LIBRARY_PATH=/usr/local/lib
-
 # Aliases
 alias vim='nvim'
 
@@ -44,12 +36,6 @@ eval "$(starship init zsh)"
 # Terminal
 export TERM=xterm
 
-# opencode
-export PATH=/Users/jgnovak/.opencode/bin:$PATH
-
 # iex shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
 
-# Mise
-export PATH=$PATH:$HOME/.local/bin
-eval "$(~/.local/bin/mise activate zsh)"
